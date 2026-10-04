@@ -82,137 +82,102 @@ Below, six separate modules are described that can be delivered over 2 days.
 
 ## Day 2
 
-### Module 4: Using MCPs
+## An MCP for incident reporting
 
-  - exercise: let the LLM record an incident from a free-text description ("the printer on floor 3 is on fire")
+- VISUAL: project structure
+- EXERCISE: a step-by-step guide for implementing a MCP server for incident reporting
+  goal: complete an incident-recording server with tools  `create_incident`, `list_incidents`, `close_incident`
+  - project setup with uv, the `mcp` / `fastmcp` package
+  - implement a first tool with `@mcp.tool()`
+  - add type hints
+  - add a docstring
+  - add a resource (`@mcp.resource("incident://{id}")`)
+  - add a prompt template
 
-  - VISUAL: project structure
+## Validation with pydantic
 
-- workflow automation in LangGraph
-  - concept: graphs, nodes, edges and state; when a fixed workflow beats a free agent
-  - concept: loading MCP tools into LangGraph via `langchain-mcp-adapters`
-  - exercise: a workflow "classify incident → assign priority → notify responsible team"
-  - Coding Kata: the group extends the workflow with a conditional branch (escalation for high priority)
+- EXAMPLE: pydantic type annotations in a MCP tools: Field, validation helper function, range limits
+- EXERCISE: add pydantic model : improve a tool with vague parameters (`data: str`) into a well-typed pydantic interface and compare LLM behavior
 
+## UI with Prefab
 
+- the Prefab app interface
+- EXAMPLE: working example code
+- EXERCISE: run the example and see the UI
+- EXERCISE: browse the catalog
+- EXAMPLE: form example code that calls back to the server
+- EXERCISE: build human-in-the loop step with Prefab
 
-- Generating structured calls to LLMs with docstrings and pydantic
-  - type annotations
-  - concept: how FastMCP turns type hints and docstrings into JSON schemas
-  - concept: pydantic models as tool inputs and outputs; validation, enums, `Field(description=...)`
-  - exercise: improve a tool with vague parameters (`data: str`) into a well-typed pydantic interface and compare LLM behavior
-  - activity: "bad docstring contest" – which description makes the LLM call the tool incorrectly?
-- error recovery patterns
-  - concept: retries, timeouts, idempotency, fallbacks
-  - exercise: add validation and meaningful error messages to the incident server, observe self-correction of the LLM
-  - debugging: a tool that fails silently and makes the LLM hallucinate a success
+## LangGraph Workflows
 
-- relational and vector databases
-  - VISUAL: TF Projector
-  - concept: embeddings as vectors of meaning
-
-  - concept and vetor-based search over documents
-  - concept: persisting MCP data in SQLite/PostgreSQL via SQLAlchemy
-  - USE A DATABASE THAT IS pip-installable
-  - exercise: a `search_similar_incidents` tool backed by embeddings
-
-- decoupling MCP servers from existing applications: FastMCP submodules vs.
-  - concept: mounting/composing several FastMCP servers into one
-  - exercise: expose an existing FastAPI web app as an MCP service
-
-- Standalone microservices vs. MCP Gateways
-  - concept: Docker, HTTP transport
-  - concept: MCP gateways/proxies – central routing, authentication, logging, tool filtering
-  - ACTIVITY: sketch an architecture for 3 MCP services
-
-### Module 5: Data Protection and Security
-
-- security risks when using AI
-  - concept: prompt injection (direct and indirect), tool poisoning
-  - concept: excessive agency and confused-deputy problems; OWASP Top 10 for LLM applications
-  
-- data protection risks when using AI
-  - concept: local vs. cloud models from a data-protection perspective; retention and training opt-outs
-  - exercise: trace the data flow of one agent session and mark all personal data
-  - activity: Fachlandkarte data protection – data categories, processors, legal bases
-
-- design patterns for securing AI applications
-  - concept: least privilege – read-only tools, scoped credentials, tool allowlists
-  - exercise: add audit logging of every tool call
-
+- VISUAL: workflow
+- concept: workflow automation in LangGraph
+- concept: loading MCP tools into LangGraph via `langchain-mcp-adapters`
+- EXERCISE: run a workflow "classify incident → assign priority → notify responsible team"
+- EXERCISE: extend the workflow with a conditional branch (escalation for high priority)
+- QUESTION: when a fixed workflow beats a free agent?
 - Human-in-the-Loop: implementing explicit approval steps
   - QUESTION: which actions need approval (irreversible, outward-facing, costly)
   - concept: interrupts in LangGraph
   - Programmiere mit mir: an approval step before `close_incident` is executed
-  - exercise: implement a LangGraph interrupt that waits for a human decision
-
-### Module 6: Practical Considerations when using MCPs
-
-- lethal trifecta
-- software engineering best practices
-  - functional and non-functional requirements
-  - concept: testing MCP servers – client test with pytest
-  - exercise: write pytest tests for the incident server
-  - concepts: latency, deployment, authentication, scaling
-
-- using the MCP as a backend worker
-  - concept: MCP servers without an LLM – calling tools programmatically from scripts and pipelines
-  - concept: long-running tasks, progress notifications and cancellation
-  - exercise: a batch script that imports a CSV of incidents via the MCP server
-  - discussion: when is MCP the right abstraction, and when is a plain REST API simpler?
+  - exercise: execute a LangGraph interrupt that waits for a human decision
 
 
-- summary and conclusions
-  - discussion: next steps, transfer to participants' projects, further resources
-  - feedback round
+## Error recovery
+- where to add retries, timeouts, idempotency, fallbacks?
+- EXERCISE: debug a tool that fails silently and makes the LLM hallucinate a success. Add a meaningful error message
 
-## Didaktische Methode
+## Vectorized search
+- relational and vector databases
+  - VISUAL: TF Projector
+  - concept: embeddings as vectors of meaning
+  - concept vector-based search over documents
+  - USE A DATABASE THAT IS pip-installable
+  - EXERCISE: a `search_similar_incidents` tool backed by embeddings
 
-Der Kurs wird nach einer vom Trainer über die letzten 20 Jahre etablierten Methode durchgeführt. Die folgenden Aktivitäten werden während des Kurses stattfinden:
+## Multiple MCP servers
 
-Programmiere mit mir: der Trainer schreibt kurze Codebeispiele, um den
-Teilnehmern neue Konzepte nahezubringen. Dies erfolgt langsam genug, so daß die Teilnehmer mitprogrammieren und Fragen stellen können.
+- VISUAL: MCP services, mounted service, gateway
+- decoupling MCP servers from existing applications with FastMCP submodules, microservices and MCP Gateways
+- concept: mounting/composing several FastMCP servers into one
+- TABLE with short descriptions: Microservice, Docker, HTTP transport, MCP gateway, proxy, central routing, authentication, tool filtering
+- EXERCISE: expose an existing FastAPI web app as an MCP service
 
-Fachlandkarten: wichtige Begriffe und deren Beziehungen aus jedem Modul werden in Form einer Infografik (Fachlandkarte) übersichtlich dargestellt. Die Informationsdichte ist passend dosiert, um den Lernprozess zu beschleunigen.
-
-Reduzierte Beispiele: die Teilnehmer werden unvollständige Programme erhalten, die sie unter Anwendung der Inhalte eines Moduls vervollständigen.
-
-Debugging: die Teilnehmer erhalten fehlerhafte Programme, die sie debuggen.
-Coding Kata: die Gruppe schreibt gemeinsam ein Programm, um eine vorgegebene
-Aufgabe zu lösen.
-
-## Text
-
-This two-day course enables participants to build AI interfaces for business applications. They
-learn to expose their own projects as MCP services and use commercial LLMs such as Claude
-or GitHub copilot to interact with them in an agentic fashion. The course covers use cases such
-as:
-
-- create a MCP-compatible web app
-- define a CLI application that an LLM can use
-- connect an existing LLM to the above services
-- build
-- build a practical usage exampe, e.g. recording an incident
-
-The course targets participants with some working experience in Python. To participate in the
-practical part, they will need a local Python installation and use libraries such as FastAPI or
-anthropic. Some knowledge of FastAPI and Object-Oriented Programming is useful but not
-required.
-A prerequisite for the course is that participants have access to an LLM like Claude Desktop or
-the Claude Command Line interface. Alternatively, the Copilot equivalent will also work. It
-should be pointed out that some of the activities wiill not work with the Cloud variant, as the
-MCP services will not be visible outside the internal network.
-
-## Exercises
-  - EXERCISE 2: a step-by-step guide for implementing a MCP server for incident reporting
-    goal: complete an incident-recording server with tools  `create_incident`, `list_incidents`, `close_incident`
-    - project setup with uv, the `mcp` / `fastmcp` package
-    - implement a first tool with `@mcp.tool()`
-    - add type hints
-    - add a docstring
-    - add a resource (`@mcp.resource("incident://{id}")`)
-    - add a prompt template
+MAKE CARD PAIRS TEXT + TITLE
 
 
-Discussion:
-- concept: selection criteria – cost, latency, context size, tool-use capability, data residency
+## Data Protection and Security
+
+- security and data protection risks when using AI
+  - TABLE: lethal trifecta of security issues (Veit)
+  - concept: prompt injection (direct and indirect), tool poisoning
+  - concept: excessive agency and confused-deputy problems; OWASP Top 10 for LLM applications
+  - data protection risks when using AI
+  - concept: least privilege – read-only tools, scoped credentials, tool allowlists
+- EXERCISE: add audit logging of every tool call
+
+## MCP as a backend worker
+
+- concept: long-running tasks, progress notifications and cancellation
+- EXERCISE: create a Task with FastMCP
+- EXERCISE: a batch script that imports a CSV of incidents via the MCP server
+- QUESTION: when is MCP the right abstraction, and when is a plain REST API simpler?
+
+
+## Practical Considerations when using MCPs
+
+This module should provide food for thought for a generic discussion.
+
+- EXERCISE: write pytest tests for the incident server
+- SHORT TEXTS TO BE PRINTED ON CARDS: software engineering best practices
+  - 12-factor app
+  - functional requirements
+  - non-functional requirements
+  - 4 requirements of software: availability, reliability, security, safety
+  - software entropy
+- QUESTION: how do I know that my LLM application is working?
+- QUESTION: how do I know that my LLM application is doing the right thing?
+- QUESTION: how is my service going to change in the future?
+
+- discussion: next steps, transfer to participants' projects
+- feedback round
