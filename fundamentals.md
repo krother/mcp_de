@@ -3,14 +3,9 @@
 
 ## Architektur eines LLM
 
-```mermaid
-flowchart LR
-    T[Text] --> TOK[Tokenizer] --> E[Embeddings<br>ein Vektor pro Token]
-    E --> B[Transformer-Blöcke<br>Attention + Feed-Forward<br>× N Schichten]
-    B --> P[Wahrscheinlichkeiten<br>für das nächste Token]
-    P --> S[ein Token auswählen]
-    S -- anhängen und wiederholen --> T
-```
+*examplarischer Aufbau von ChatGPT*
+
+![GPT Architektur](images/gpt_architecture.png)
 
 ### Übung 1: Lückentext
 
