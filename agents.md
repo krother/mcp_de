@@ -1,7 +1,4 @@
-# Agents
-
-
-## Der Agent Loop
+# Agenten
 
 ```mermaid
 sequenceDiagram
@@ -22,7 +19,7 @@ sequenceDiagram
 
 ```
 
-Die meisten agentischen Schleifen in der Praxis sind Umsetzungen des ReAct-Patterns (Reason + Act), das 2022 in einem Paper von Google Research vorgestellt wurde. Der Agent wechselt zwischen zwei Modi:
+Die meisten Agenten-Schleifen sind Umsetzungen des ReAct-Patterns (Reason + Act), das 2022 in einem Paper von Google Research vorgestellt wurde. Der Agent wechselt zwischen zwei Modi:
 
     Reasoning — durchdenken, was zu tun ist, warum, und was voraussichtlich passieren wird
     Acting — ein Tool aufrufen, Code ausführen oder eine andere konkrete Aktion durchführen
@@ -37,17 +34,16 @@ Oder etwas detaillierter:
 
 Das ist das **ReAct**-Pattern: *Reason → Act → Observe → Repeat*.
 
-> Agents in einer Schleife laufen zu lassen erfordert ein großes Kontextfenster!
+> Agenten in einer Schleife laufen zu lassen erfordert ein großes Kontextfenster!
 
 ----
 
 ## Wann endet der Agent Loop?
 
-Jede Schleife braucht einen Ausgang. Übliche Abbruchbedingungen:
+Jede Schleife braucht einen Ausgang. Übliche Abbruchbedingungen sind:
 
-    Aufgabe erledigt — Der Agent stellt fest, dass das Ziel erreicht ist
-    Schrittlimit — Maximale Anzahl an Iterationen erreicht (z.B. 50 Schritte)
-    Token-Budget — Kontextfenster- oder Kostenlimit erreicht
-    Menschlicher Checkpoint — Pausieren und auf Bestätigung durch den Benutzer warten
-    Fehlerschwelle — Zu viele Fehler hintereinander, Abbruch
-
+- Aufgabe erledigt
+- Maximale Anzahl an Iterationen erreicht (z.B. 50 Schritte)
+- Kontextfenster- oder Kostenlimit erreicht
+- Menschlicher Checkpoint — Pausieren und auf Bestätigung durch den Benutzer warten
+- Zu viele Fehler hintereinander, Abbruch
