@@ -34,13 +34,13 @@ logging_debugging
 
 agents
 validation
+backend_worker
 prefab_ui
 langgraph_workflows
 error_recovery
 vector_search
 multiple_servers
 security
-backend_worker
 practical_considerations
 ```
 

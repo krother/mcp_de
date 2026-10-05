@@ -19,9 +19,13 @@ Mit **Tasks** läuft das Tool im Hintergrund:
 
 ## Übung 1: Einen Task anlegen
 
+
 ```bash
 uv add fastmcp-tasks
 ```
+
+Füge Code zum Beispiel aus dem pydantic-Kapitel hinzu:
+
 
 ```python
 import asyncio
@@ -42,11 +46,20 @@ async def generate_report(ctx: Context) -> dict:
     return {"total": total}
 ```
 
+Lösung: [code/incident_worker.py](code/incident_worker.py)
 
-Rufe den Task aus einem Skript auf und frage zwischendurch den Status ab:
+
+## Übung 2: CSV-Import
+
+Verwende [code/import_csv.py](code/import_csv.py), um alle Zeilen aus [code/incidents.csv](code/incidents.csv) über `create_incident` zu importieren
+und anschließend den Bericht zu erzeugen.
+
+Füge Code hinzu, um den Bericht zu erzeugen:
 
 ```python
 from fastmcp_tasks import call_tool_task
+
+...
 
 task = await call_tool_task(client, "generate_report")
 status = await task.status()
@@ -54,19 +67,7 @@ print(status.status, status.status_message)
 report = await task.result()
 ```
 
-## Übung 2: CSV-Import
-
-Schreibe ein Skript, das alle Zeilen aus [code/incidents.csv](code/incidents.csv) über `create_incident` importiert
-und anschließend den Bericht erzeugt. Es wird kein LLM benötigt.
-
-```python
-async with client:
-    with open("incidents.csv") as f:
-        for row in csv.DictReader(f):
-            result = await client.call_tool("create_incident", row)
-```
-
-Lösung: [code/incident_worker.py](code/incident_worker.py), [code/import_csv.py](code/import_csv.py)
+Gib den Bericht am Ende aus.
 
 ----
 
