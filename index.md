@@ -32,7 +32,7 @@ logging_debugging
 ```{toctree}
 :maxdepth: 1
 
-incident_mcp
+agents
 validation
 prefab_ui
 langgraph_workflows
