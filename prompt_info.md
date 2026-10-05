@@ -54,6 +54,7 @@ def fibonacci(
     ...
 ```
 
+
 ## Übung 5: Parameter im Docstring beschreiben
 
 Füge ein zweites Tool hinzu, das mehrere Zahlen zurückgibt:
