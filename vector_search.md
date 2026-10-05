@@ -33,19 +33,13 @@ Führe den Code in [code/incident_search.py](code/incident_search.py) aus.
 Er benötigt eine CSV-Datei mit incidents: [code/incidents.csv](code/incidents.csv)
 
 
-### Schritt 2: Suchen
+Gib einen Text ein und sieh dir die gefundenen Dokumente und Distanzen an. Je kleiner der Abstand, desto ähnlicher.
 
-```python
-result = collection.query(query_texts=["the copier is smoking"], n_results=3)
-```
-
-Sieh dir `result["documents"]` und `result["distances"]` an. Je kleiner der Abstand, desto ähnlicher.
-
-### Schritt 3: Ein MCP Tool daraus machen
+### Schritt 2: Ein MCP Tool daraus machen
 
 Schreibe ein Tool `search_similar_incidents(text: str, n: int = 3) -> list[dict]`.
 
-### Schritt 4: Mit einem LLM ausprobieren
+### Schritt 3: Mit einem LLM ausprobieren
 
 > Mein Laptop findet kein WLAN. Gab es das schon mal?
 
